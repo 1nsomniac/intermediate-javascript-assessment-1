@@ -38,11 +38,19 @@ var thirdUser = 'don\'t touch this string, either!';
 function noWeakLink() {
 
   var promise = $http({
-    method: 'GET',
-    url: '/api/users'
-  })
-  // CODE HERE...
-
+      method: 'GET',
+      url: '/api/users'
+    })
+    // CODE HERE...
+    .then(function (response) {
+      console.log(response.data[0])
+      firstUser = response.data[0]
+      // })
+      // .then(function (response) {
+      console.log(response.data[2])
+      thirdUser = response.data[2]
+      return response.data[9]
+    })
 
   return promise;
 }
@@ -68,13 +76,14 @@ function noWeakLink() {
 var elephant = {
   name: 'Horton'
 }
+
 function large() {
 
   return 'My name is ' + this.name + ' and I am very heavy!'
 }
 // CODE HERE...
 
-
+let boundToElephant = large.bind(elephant)
 
 // *************
 // * PROBLEM 3 *
@@ -85,7 +94,9 @@ function large() {
 // capacity (Function) and crew (object).
 // Use explicit binding to give capacity the context of crew and return the result.
 
-// CODE HERE...
+function deathStar(capacity, crew) {
+  return capacity.bind(crew)
+}
 
 
 
@@ -100,9 +111,11 @@ function large() {
 // The closure function will take in a parameter: liabilities (Number)
 // The closure function will returns the combined value of assets and liabilities.
 
-// CODE HERE...
-
-
+function accountingOffice(assets) {
+  return function (liabilities) {
+    return assets + liabilities
+  }
+}
 
 // *************
 // * PROBLEM 5 *
@@ -125,7 +138,18 @@ function large() {
 //     remember: << array of items to be remembered >>
 // };
 
-// CODE HERE...
+var obj = {}
+
+function forgetter(name) {
+  return function rememberall(item) {
+    if (!obj[name]) obj[name] = []
+    obj[name].push(item)
+    return {
+      name: name,
+      remember: obj[name]
+    }
+  }
+}
 
 
 
@@ -154,3 +178,30 @@ function large() {
 // NOTE: Neither hunger nor danger should be able to exceed 100 or drop below 0.
 
 // CODE HERE...
+
+function frodo(startingHungerValue, startingDangerValue) {
+  var hunger = startingHungerValue
+  var danger = startingDangerValue
+  return {
+    dinnerOverFire: function () {
+      if (hunger >= 25) hunger -= 25
+      else hunger = 0
+      if (danger <= 60) danger += 40
+      else danger = 100
+      return {
+        hunger: hunger,
+        danger: danger
+      }
+    },
+    hidingInBush: function () {
+      if (hunger <= 65) hunger += 35
+      else hunger = 100
+      if (danger >= 20) danger -= 20
+      else danger = 0
+      return {
+        hunger: hunger,
+        danger: danger
+      }
+    }
+  }
+}
