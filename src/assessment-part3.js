@@ -12,7 +12,12 @@
 // with the animal as the context, and 'Trogdor' as a parameter.
 // return the result of your updateAnimal invocation
 
-// CODE HERE...
+function callBinding(magicAnimals, updateAnimal, id) {
+    for (var i = 0; i < magicAnimals.length; i++) {
+        if (magicAnimals[i].id === id) var index = i
+    }
+    return updateAnimal.call(magicAnimals[index], 'Trogdor')
+}
 
 
 // *************
@@ -26,7 +31,15 @@
 // with the context of the animal, and the array ['being majestic', 'eating rainbows'] as a parameter.
 // return the result of your updateAnimal invocation
 
-// CODE HERE...
+function applyBinding(magicAnimals, updateAnimal, id) {
+    // let index = magicAnimals.indexOf(id)
+
+    for (var i = 0; i < magicAnimals.length; i++) {
+        if (magicAnimals[i].id === id) var index = i
+    }
+    console.log(magicAnimals[index], index, magicAnimals, id)
+    return updateAnimal.apply(magicAnimals[index],  ['being majestic', 'eating rainbows'])
+}
 
 // *************
 // * PROBLEM 3 *
@@ -45,6 +58,22 @@
 var foo;
 // CODE HERE...
 
+function promiseMe($q) {
+    console.log('hello?')
+    var promise = $q.defer()
+    console.log($q.defer())
+        $q(function (resolve) {
+            setTimeout(function () {
+            console.log('timed out')
+            resolve()
+        }, 20)
+    })
+    promise.then(function (resolve) {
+            foo = 'bar'
+        });
+    console.log(promise)
+    return promise.promise
+}
 
 // *************
 // * PROBLEM 4 *
